@@ -13,11 +13,12 @@
 #cursos-botoes {
     display: flex;
     justify-content: space-around;
+    margin-top: 1rem;
 }
 
-.botao-curso {
+#botao-curso {
     padding: 1rem;
-    background-color: #4ACF50;
+    background-color: #4CAF50;
     color: #f0f0f0;
     border: none;
     border-radius: 0.5rem;
@@ -28,4 +29,8 @@
 
 .botao-curso:hover {
     background-color: #45a049;
+}
+
+#iniciar-chat {
+    margin-top: 1rem;
 }
