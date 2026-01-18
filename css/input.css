@@ -1,0 +1,25 @@
+#input-container {
+    display: flex;
+}
+
+#entrada-usuario {
+    flex-grow: 1;
+    padding: 1rem;
+    border: none;
+}
+
+.message {
+    margin: 0.5rem 0;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.user-message {
+    background-color: #d1d1d1;
+    align-self: flex-start;
+}
+
+.bot-message {
+    background-color: #d1d1d1;
+    align-self: flex-start;
+}

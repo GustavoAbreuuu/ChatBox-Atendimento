@@ -1,0 +1,31 @@
+#botao-enviar {
+    padding: 1rem;
+    border: none;
+    background-color: #4CAF50;
+    color: #fff;
+    cursor: pointer;
+}
+
+#botao-enviar:hover {
+    background-color: #45a049;
+}
+
+#cursos-botoes {
+    display: flex;
+    justify-content: space-around;
+}
+
+.botao-curso {
+    padding: 1rem;
+    background-color: #4ACF50;
+    color: #f0f0f0;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.botao-curso:hover {
+    background-color: #45a049;
+}
