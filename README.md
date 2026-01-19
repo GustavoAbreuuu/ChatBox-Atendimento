@@ -14,6 +14,12 @@ Este projeto simula um assistente virtual capaz de responder perguntas frequente
 * **CSS3:** Estilização modular, Variáveis e Flexbox.
 * **JavaScript (ES6+):** Lógica de interação, manipulação do DOM e implementação do algoritmo de busca.
 
+## Técnicas Utilizadas, Praticadas
+ * Utilização de EventListeners
+ * Uso de funções com o objetivo de construir um chatbox a partir do javascript.
+ * Utilização de estruturas de repetição.
+ * setTimeout.
+
 ## 🧠 Destaque Técnico: Algoritmo de Busca
 O diferencial deste projeto é a implementação manual da **Distância de Levenshtein** no arquivo `script.js`. Em vez de buscar apenas por palavras exatas, o bot calcula o "custo" de transformar a frase do usuário em uma das perguntas do banco de dados.
 
