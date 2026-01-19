@@ -165,4 +165,46 @@ const qa = [
     { pergunta: "há suporte para dúvidas de carreira?", resposta: "Sim, oferecemos orientação de carreira para ajudar você a entrar no mercado de trabalho." },
     { pergunta: "os cursos são recomendados para iniciantes?", resposta: "Sim, nossos cursos são projetados para serem acessíveis a iniciantes." },
     { pergunta: "posso ver as avaliações de outros alunos?", resposta: "Sim, na página de cada curso você encontra avaliações de outros alunos." },
-]
+];
+
+function iniciarChat() {
+    const nomeUsuarioInput = document.getElementById('nome-usuario').value;
+    if(nomeUsuarioInput.trim() !== '') {
+        nomeUsuario = nomeUsuarioInput;
+        document.getElementById('chat-intro').style.display = none; 
+        document.getElementById('chat-window').style.display = 'flex';
+        adicionarMensagem(`Olá ${nomeUsuario}! Como posso ajudar você hoje?`, 'bot-texto');
+    }
+}
+
+function enviarMensagem() {
+    const entradaUsuario = document.getElementsById('entrada-usuario').value;
+    if (entradaUsuario.trim() !== '') {
+        adicionarMensagem(entradaUsuario,'user-message');
+        document.getElementById('entrada-usuario').value = '';
+        respostaBot(entradaUsuario);
+    }
+}
+
+function respostaBot(entradaUsuario) {
+    const entradaUsuarioLower = entradaUsuario.toLowerCase();
+    const resposta = encontrarResposta(entradaUsuarioLower) || 'Desculpe não entendi sua pergunta. Poderia reformular?';
+    setTimeout(() => adicionarMensagem(resposta, 'bot-message'), 500);
+    if (entradaUsuarioLower.includes('quais são os cursos oferecidos')) {
+        setTimeout(() => exibirBotoesCursos(), 600);
+    }
+}
+
+function encontrarResposta(entrada) {
+    let melhorCorrespondencia = ''
+    let menorDistancia = Infinity;
+    qa.forEach(item => {
+        const distancia = calcularDistanciaLevenshtein(entrada, item.pergunta.toLowerCase());
+        if (distancia < menorDistancia) {
+            menorDistancia = distancia;
+            melhorCorrespondencia = item.resposta;
+        }
+    });
+
+    return menorDistancia <= (entrada.length / 2) ? melhorCorrespondencia : null;
+}
