@@ -1,4 +1,4 @@
-#botao-enviar {
+#send-button {
     padding: 1rem;
     border: none;
     background-color: #4CAF50;
@@ -6,7 +6,7 @@
     cursor: pointer;
 }
 
-#botao-enviar:hover {
+#send-button:hover {
     background-color: #45a049;
 }
 
@@ -14,9 +14,10 @@
     display: flex;
     justify-content: space-around;
     margin-top: 1rem;
+    padding-bottom: 1rem;
 }
 
-#botao-curso {
+.botao-curso {
     padding: 1rem;
     background-color: #4CAF50;
     color: #f0f0f0;
@@ -25,6 +26,7 @@
     cursor: pointer;
     text-decoration: none;
     display: inline-block;
+    font-size: 1.4rem;
 }
 
 .botao-curso:hover {

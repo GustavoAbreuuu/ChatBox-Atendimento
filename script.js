@@ -1,7 +1,7 @@
 document.getElementById('iniciar-chat').addEventListener('click', iniciarChat);
-document.getElementById('botao-enviar').addEventListener('click', enviarMensagem);
-document.getElementById('minimize-button').addEventListener('click', enviarMensagem);
-document.getElementById('close-button').addEventListener('click', altenarJanelaChat);
+document.getElementById('send-button').addEventListener('click', enviarMensagem);
+document.getElementById('minimize-button').addEventListener('click', altenarJanelaChat);
+document.getElementById('close-button').addEventListener('click', fecharChat);
 
 /* Declara uma variável para armazenar o nome do usuário. Inicialmente é uma string vazia. */
 let nomeUsuario = '';
@@ -9,14 +9,14 @@ let nomeUsuario = '';
 /* Define um array que contém pares de perguntas e respostas.*/
 const qa = [
     /* Cada objeto contém uma 'pergunta' e uma 'resposta' que corresponde ao chatbot.*/
-    { pergunta: "olá", resposta: "Olá! Como posso ajudar você hoje?"},
-    { pergunta: "oi", resposta: "Oi! Como posso ajudar você hoje"},
-    { pergunta: "qual é o seu nome?", resposta: "Eu sou o Chatbot de Atendimento"},
-    { pergunta: "como posso acessar a minha conta?", resposta: "Oferecemos Cursos de HTML, CSS, Javascript e React."},
-    { pergunta: "quanto custa o curso de HTML?", resposta: "O curso de HTML custa R$ 100,00."},
+    { pergunta: "olá", resposta: "Olá! Como posso ajudar você hoje?" },
+    { pergunta: "oi", resposta: "Oi! Como posso ajudar você hoje" },
+    { pergunta: "qual é o seu nome?", resposta: "Eu sou o Chatbot de Atendimento" },
+    { pergunta: "como posso acessar a minha conta?", resposta: "Oferecemos Cursos de HTML, CSS, Javascript e React." },
+    { pergunta: "quanto custa o curso de HTML?", resposta: "O curso de HTML custa R$ 100,00." },
     { pergunta: "quanto custa o curso de CSS?", resposta: "O curso de CSS custa R$ 120,00." },
     { pergunta: "quanto custa o curso de JavaScript?", resposta: "O curso de JavaScript custa R$ 150,00." },
-    { pergunta: "como faço para me inscrever no curso de HTML?", resposta: "Para se inscrever no curso de HTML, acesse a página do curso e clique em 'Inscrever-se'."},
+    { pergunta: "como faço para me inscrever no curso de HTML?", resposta: "Para se inscrever no curso de HTML, acesse a página do curso e clique em 'Inscrever-se'." },
     { pergunta: "como faço para me inscrever no curso de CSS?", resposta: "Para se inscrever no curso de CSS, acesse a página do curso e clique em 'Inscrever-se'." },
     { pergunta: "como faço para me inscrever no curso de JavaScript?", resposta: "Para se inscrever no curso de JavaScript, acesse a página do curso e clique em 'Inscrever-se'." },
     { pergunta: "qual é a duração do curso de HTML?", resposta: "O curso de HTML tem duração de 4 semanas." },
@@ -169,18 +169,18 @@ const qa = [
 
 function iniciarChat() {
     const nomeUsuarioInput = document.getElementById('nome-usuario').value;
-    if(nomeUsuarioInput.trim() !== '') {
+    if (nomeUsuarioInput.trim() !== '') {
         nomeUsuario = nomeUsuarioInput;
-        document.getElementById('chat-intro').style.display = none; 
+        document.getElementById('chat-intro').style.display = 'none';
         document.getElementById('chat-window').style.display = 'flex';
         adicionarMensagem(`Olá ${nomeUsuario}! Como posso ajudar você hoje?`, 'bot-texto');
     }
 }
 
 function enviarMensagem() {
-    const entradaUsuario = document.getElementsById('entrada-usuario').value;
+    const entradaUsuario = document.getElementById('entrada-usuario').value;
     if (entradaUsuario.trim() !== '') {
-        adicionarMensagem(entradaUsuario,'user-message');
+        adicionarMensagem(entradaUsuario, 'user-message');
         document.getElementById('entrada-usuario').value = '';
         respostaBot(entradaUsuario);
     }
@@ -207,4 +207,74 @@ function encontrarResposta(entrada) {
     });
 
     return menorDistancia <= (entrada.length / 2) ? melhorCorrespondencia : null;
+}
+
+function calcularDistanciaLevenshtein(a, b) {
+    const matrix = [];
+    for (let i = 0; i <= b.length; i++) {
+        matrix[i] = [i];
+    }
+
+    for (let j = 0; j <= a.length; j++) {
+        matrix[0][j] = j;
+    }
+
+    for (let i = 1; i <= b.length; i++) {
+        for (let j = 1; j <= a.length; j++) {
+            if (b.charAt(i - 1) === a.charAt(j - 1)) {
+                matrix[i][j] = matrix[i - 1][j - 1];
+            } else {
+                matrix[i][j] = matrix[i - 1][j - 1] + 1;
+                matrix[i][j] = Math.min(matrix[i][j], matrix[i][j - 1] + 1);
+                matrix[i][j] = Math.min(matrix[i][j], matrix[i - 1][j] + 1);
+            }
+        }
+    }
+
+    return matrix[b.length][a.length];
+}
+
+function exibirBotoesCursos() {
+    const chatOutput = document.getElementById('chat-output');
+    const cursosBotoes = document.createElement('div');
+    cursosBotoes.id = 'cursos-botoes';
+    const cursos = [
+        { nome: 'Excel', link: 'https://www.udemy.com/course/excel-basico-ao-avancado-aprenda-a-automatizar-12-planilhas/?referralCode=477073AE57D910FB2391' },
+        { nome: 'Python', link: 'https://www.udemy.com/course/python-rpa-e-excel-aprenda-automatizar-processos-e-planilhas/?referralCode=75F06FB2C5443C0A1FBF' },
+        { nome: 'Lógica', link: 'https://www.udemy.com/course/algoritmos-e-logica-de-programacao-visualg-c-e-qt-creator/?referralCode=3D37392361EEA1BFB488' }
+    ];
+
+    cursos.forEach(curso => {
+        const botaoCurso = document.createElement('a');
+        botaoCurso.className = 'botao-curso';
+        botaoCurso.href = curso.link;
+        botaoCurso.target = '_blank';
+        botaoCurso.textContent = curso.nome;
+        cursosBotoes.appendChild(botaoCurso);
+    });
+
+    chatOutput.appendChild(cursosBotoes);
+    cursosBotoes.scrollIntoView();
+
+}
+
+function adicionarMensagem(mensagem, classe) {
+    const elementoMensagem = document.createElement('div');
+    elementoMensagem.className = `message ${classe}`;
+    elementoMensagem.textContent = mensagem;
+    document.getElementById('chat-output').appendChild(elementoMensagem);
+    elementoMensagem.scrollIntoView();
+}
+
+function altenarJanelaChat(){
+    const janelaChat = document.getElementById('chat-window');
+    janelaChat.style.display = janelaChat.style.display === 'none'
+        ? 'flex'
+        :'none';
+}
+
+function fecharChat() {
+    const elementoChatbot = document.getElementById('chatbot');
+    
+    elementoChatbot.style.display = 'none';
 }
