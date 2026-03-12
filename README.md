@@ -4,7 +4,7 @@ Um widget de chat interativo e leve, desenvolvido com **JavaScript Puro (Vanilla
 
 Este projeto simula um assistente virtual capaz de guiar o usuário de forma inteligente, respondendo perguntas frequentes (FAQ), recomendando cursos e entendendo a intenção do usuário através de uma abordagem híbrida de processamento de texto.
 
-<img width="431" height="554" alt="Captura de tela 2026-03-12 194704" src="https://github.com/user-attachments/assets/8f995fb2-a238-488d-8560-37dc2bff6fda" />
+<img width="1918" height="1019" alt="Captura de tela 2026-03-12 193753" src="https://github.com/user-attachments/assets/bff45888-19b1-4284-be8e-b32b06508cc3" />
 
 
 ## 🚀 Funcionalidades
