@@ -3,7 +3,20 @@ document.getElementById('send-button').addEventListener('click', enviarMensagem)
 document.getElementById('minimize-button').addEventListener('click', altenarJanelaChat);
 document.getElementById('close-button').addEventListener('click', fecharChat);
 
-/* Declara uma variável para armazenar o nome do usuário. Inicialmente é uma string vazia. */
+document.getElementById('entrada-usuario').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        enviarMensagem();
+    }
+});
+
+document.getElementById('nome-usuario').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault(); 
+        iniciarChat();
+    }
+});
+
 let nomeUsuario = '';
 
 /* Define um array que contém pares de perguntas e respostas.*/
@@ -79,7 +92,7 @@ const qa = [
     { pergunta: "posso ver uma prévia dos cursos?", resposta: "Sim, oferecemos prévias gratuitas de alguns cursos para você conhecer o conteúdo." },
     { pergunta: "os cursos são recomendados para quem?", resposta: "Nossos cursos são recomendados para qualquer pessoa interessada em desenvolvimento web, seja iniciante ou profissional." },
     { pergunta: "posso cancelar minha inscrição a qualquer momento?", resposta: "Sim, você pode cancelar sua inscrição a qualquer momento entrando em contato com nosso suporte." },
-    { pergunta: "qual é o nível de dificuldade dos cursos?", resposta: "Os cursos são projetados para serem acessíveis a todos os níveis, do iniciante ao avançado." },
+    { pergunta: "qual é o nível de dificuldade dos cursos?", resposta: "Os cursos são projetados para serem acessíveis a todos níveis, do iniciante ao avançado." },
     { pergunta: "há exercícios de código?", resposta: "Sim, nossos cursos incluem muitos exercícios de código para praticar." },
     { pergunta: "posso interagir com outros alunos?", resposta: "Sim, você pode interagir com outros alunos através do fórum da plataforma." },
     { pergunta: "quais são os tópicos abordados no curso de HTML?", resposta: "O curso de HTML abrange tópicos como estrutura de páginas, tags, atributos e semântica." },
@@ -148,23 +161,6 @@ const qa = [
     { pergunta: "há algum tipo de suporte técnico?", resposta: "Sim, oferecemos suporte técnico para ajudar com qualquer problema na plataforma." },
     { pergunta: "posso acessar os cursos em qualquer dispositivo?", resposta: "Sim, você pode acessar os cursos em qualquer dispositivo com internet." },
     { pergunta: "os cursos têm avaliações?", resposta: "Sim, ao final de cada módulo você encontra avaliações para testar seus conhecimentos." },
-    { pergunta: "há suporte para instalação de software?", resposta: "Sim, nossos instrutores podem ajudar com a instalação dos softwares necessários." },
-    { pergunta: "qual é a carga horária total dos cursos?", resposta: "A carga horária total varia de acordo com o curso, mas geralmente é de 40 a 80 horas." },
-    { pergunta: "os cursos têm projetos finais?", resposta: "Sim, ao final de cada curso você realizará um projeto para aplicar o que aprendeu." },
-    { pergunta: "posso obter um certificado em inglês?", resposta: "Sim, oferecemos a opção de certificado em inglês mediante solicitação." },
-    { pergunta: "os cursos têm validade?", resposta: "Não, uma vez comprado, você tem acesso vitalício aos cursos." },
-    { pergunta: "posso assistir os vídeos no meu celular?", resposta: "Sim, nossa plataforma é responsiva e você pode assistir aos vídeos no seu celular." },
-    { pergunta: "há algum tipo de comunidade para alunos?", resposta: "Sim, temos uma comunidade ativa onde alunos podem interagir e trocar conhecimentos." },
-    { pergunta: "os cursos são indicados para freelancers?", resposta: "Sim, nossos cursos são ideais para freelancers que desejam se especializar." },
-    { pergunta: "posso acessar os cursos de qualquer lugar?", resposta: "Sim, você pode acessar os cursos de qualquer lugar com internet." },
-    { pergunta: "há algum suporte para configuração do ambiente de desenvolvimento?", resposta: "Sim, nossos instrutores podem ajudar com a configuração do ambiente de desenvolvimento." },
-    { pergunta: "os cursos são recomendados para quem quer criar sites?", resposta: "Sim, nossos cursos são perfeitos para quem deseja aprender a criar sites profissionais." },
-    { pergunta: "posso usar os cursos para melhorar meu portfólio?", resposta: "Sim, os projetos realizados nos cursos podem ser incluídos em seu portfólio." },
-    { pergunta: "há algum tipo de acompanhamento?", resposta: "Sim, nossos instrutores acompanham seu progresso e podem oferecer feedback." },
-    { pergunta: "os cursos têm exercícios de revisão?", resposta: "Sim, ao final de cada módulo há exercícios de revisão para fixar o conteúdo." },
-    { pergunta: "há suporte para dúvidas de carreira?", resposta: "Sim, oferecemos orientação de carreira para ajudar você a entrar no mercado de trabalho." },
-    { pergunta: "os cursos são recomendados para iniciantes?", resposta: "Sim, nossos cursos são projetados para serem acessíveis a iniciantes." },
-    { pergunta: "posso ver as avaliações de outros alunos?", resposta: "Sim, na página de cada curso você encontra avaliações de outros alunos." },
 ];
 
 function iniciarChat() {
@@ -173,7 +169,8 @@ function iniciarChat() {
         nomeUsuario = nomeUsuarioInput;
         document.getElementById('chat-intro').style.display = 'none';
         document.getElementById('chat-window').style.display = 'flex';
-        adicionarMensagem(`Olá ${nomeUsuario}! Como posso ajudar você hoje?`, 'bot-texto');
+        // Ajustei aqui de 'bot-texto' para 'bot-message' para aplicar o seu CSS corretamente
+        adicionarMensagem(`Olá ${nomeUsuario}! Como posso ajudar você hoje?`, 'bot-message');
     }
 }
 
@@ -187,12 +184,70 @@ function enviarMensagem() {
 }
 
 function respostaBot(entradaUsuario) {
-    const entradaUsuarioLower = entradaUsuario.toLowerCase();
-    const resposta = encontrarResposta(entradaUsuarioLower) || 'Desculpe não entendi sua pergunta. Poderia reformular?';
-    setTimeout(() => adicionarMensagem(resposta, 'bot-message'), 500);
+    const entradaUsuarioLower = entradaUsuario.trim().toLowerCase();
+
+    // 1. Gatilho Especial: Exibir Botões da Udemy
     if (entradaUsuarioLower.includes('quais são os cursos oferecidos')) {
-        setTimeout(() => exibirBotoesCursos(), 600);
+        setTimeout(() => {
+            adicionarMensagem("Aqui estão algumas opções parceiras para você dar uma olhada:", 'bot-message');
+            exibirBotoesCursos();
+        }, 500);
+        return;
     }
+
+    // 2. NOVO: Gatilho sobre as Capacidades do Bot / Informações Disponíveis
+    const perguntaSobreBot = entradaUsuarioLower.includes('o que você faz') || 
+                             entradaUsuarioLower.includes('para que serve') || 
+                             entradaUsuarioLower.includes('o que esse chat') || 
+                             entradaUsuarioLower.includes('você proporciona') || 
+                             entradaUsuarioLower.includes('você entrega') ||
+                             entradaUsuarioLower.includes('informações disponíveis') ||
+                             entradaUsuarioLower.includes('quem é você');
+
+    if (perguntaSobreBot) {
+        const resposta = "Eu sou o seu Assistente Virtual! 🤖\nEstou aqui para facilitar sua vida e tirar dúvidas sobre nossa plataforma. Posso te ajudar com:\n- Detalhes dos cursos (HTML, CSS e JS)\n- Preços e formas de pagamento\n- Duração e carga horária\n- Certificados e suporte técnico\n\nSobre qual desses assuntos você quer falar?";
+        setTimeout(() => adicionarMensagem(resposta, 'bot-message'), 500);
+        return;
+    }
+
+    // 3. Gatilho Amplo: Informações Gerais
+    if (entradaUsuarioLower.includes('informação') || entradaUsuarioLower.includes('informacoes') || entradaUsuarioLower.includes('cursos disponíveis') || entradaUsuarioLower === 'cursos') {
+        const resposta = "Nós oferecemos cursos incríveis de HTML, CSS e JavaScript! Sobre qual deles você gostaria de saber mais (ex: preço, duração, conteúdo)?";
+        setTimeout(() => adicionarMensagem(resposta, 'bot-message'), 500);
+        return; 
+    }
+
+    // 4. Gatilhos Específicos por Curso (HTML, CSS, JS)
+    const querSaberDeHTML = entradaUsuarioLower === 'html' || entradaUsuarioLower === 'curso de html' || entradaUsuarioLower.includes('sobre html');
+    const querSaberDeCSS = entradaUsuarioLower === 'css' || entradaUsuarioLower === 'curso de css' || entradaUsuarioLower.includes('sobre css');
+    const querSaberDeJS = entradaUsuarioLower === 'javascript' || entradaUsuarioLower === 'js' || entradaUsuarioLower === 'curso de javascript' || entradaUsuarioLower.includes('sobre js');
+
+    if (querSaberDeHTML) {
+        const resposta = "Vejo que você quer saber sobre HTML! O que você procura?\n- Preço\n- Duração\n- Carga horária\n- Conteúdo";
+        setTimeout(() => adicionarMensagem(resposta, 'bot-message'), 500);
+        return;
+    }
+
+    if (querSaberDeCSS) {
+        const resposta = "Ótima escolha! O que você gostaria de saber sobre o curso de CSS?\n- Preço\n- Duração\n- Carga horária\n- Conteúdo";
+        setTimeout(() => adicionarMensagem(resposta, 'bot-message'), 500);
+        return;
+    }
+
+    if (querSaberDeJS) {
+        const resposta = "JavaScript é excelente! O que você quer saber sobre ele?\n- Preço\n- Duração\n- Carga horária\n- Conteúdo";
+        setTimeout(() => adicionarMensagem(resposta, 'bot-message'), 500);
+        return;
+    }
+
+    // 5. Busca Padrão (Levenshtein) no banco de dados
+    let resposta = encontrarResposta(entradaUsuarioLower);
+    
+    if (!resposta) {
+         resposta = 'Desculpe, não entendi muito bem. Você poderia reformular? Tente me perguntar coisas mais específicas, como "qual o preço do curso de html?" ou "qual a duração do css?".';
+    }
+
+    setTimeout(() => adicionarMensagem(resposta, 'bot-message'), 500);
 }
 
 function encontrarResposta(entrada) {
@@ -255,7 +310,6 @@ function exibirBotoesCursos() {
 
     chatOutput.appendChild(cursosBotoes);
     cursosBotoes.scrollIntoView();
-
 }
 
 function adicionarMensagem(mensagem, classe) {
